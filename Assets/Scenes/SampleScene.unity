@@ -853,7 +853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0278f6d32dbe20545b80dae9c834c882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throttle: 1500
+  throttleMin: 800
+  throttleMax: 2000
   turnMultiplier: 1000
 --- !u!1 &1245488181
 GameObject:

@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour {
 
     Rigidbody body;
 
-    public float throttle = 100;
+    public float throttleMin = 10;
+    public float throttleMax = 100;
     public float turnMultiplier = 100;
 
     void Start () {
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 
         Vector3 force = new Vector3();
         force.x += h * turnMultiplier;
-        force.z += v * throttle;
+        force.z += Mathf.Lerp(throttleMin, throttleMax, v);
         
         body.AddForce(force * Time.deltaTime);
         float yaw = Mathf.Atan2(body.velocity.x, body.velocity.z);
