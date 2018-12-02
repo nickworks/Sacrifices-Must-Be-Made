@@ -66,7 +66,8 @@ public class EnemyController : MonoBehaviour {
 
     void Update() {
         HandleDead();
-        
+        if (!target) return; // fixes bug when player has been destroyed
+
         distToPlayer = Vector3.Distance(transform.position, target.position);
 
         RaycastHit hit;
