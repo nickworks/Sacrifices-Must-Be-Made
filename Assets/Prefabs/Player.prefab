@@ -57,7 +57,7 @@ GameObject:
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 135716548322855288}
   - component: {fileID: 114694407518799300}
   - component: {fileID: 54019503212896202}
+  - component: {fileID: 114978728852677132}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -161,13 +162,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390291760039936}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.064, y: 0.528, z: 0}
+  m_LocalRotation: {x: -0.4773767, y: 0.5216431, z: 0.4773767, w: 0.5216431}
+  m_LocalPosition: {x: -1.38, y: 0.581, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4939446446680284}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -84.926, y: 90.00001, z: 0}
 --- !u!4 &4329287801252564
 Transform:
   m_ObjectHideFlags: 1
@@ -405,14 +406,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0278f6d32dbe20545b80dae9c834c882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 0}
   suspension: {fileID: 4222615516456892}
   model: {fileID: 4939839831548758}
-  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
-    type: 2}
   throttleMin: 800
   throttleMax: 2000
   throttleMaxAir: 1500
   turnMultiplier: 1
+--- !u!114 &114978728852677132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1922138090188922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0df33ac477635c3478fecb188f96997c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 10
+  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
+    type: 2}
+  ignoreVertical: 1
+  spawnSafetyTimer: 0.1
 --- !u!135 &135716548322855288
 SphereCollider:
   m_ObjectHideFlags: 1

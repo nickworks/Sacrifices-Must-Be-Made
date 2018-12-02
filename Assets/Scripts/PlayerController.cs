@@ -10,8 +10,6 @@ public class PlayerController : MonoBehaviour {
     public Transform suspension;
     public Transform model;
 
-    public GameObject prefabExplosion;
-
     public float throttleMin = 800;
     public float throttleMax = 2000;
     public float throttleMaxAir = 1500;
@@ -37,27 +35,8 @@ public class PlayerController : MonoBehaviour {
         if (isGrounded) UpdateGrounded();
         else UpdateAir();
 
-        DetectCollision();
     }
-
-    private void DetectCollision()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, forward, out hit, 1))
-        {
-            if(hit.transform.tag == "Death")
-            {
-                Explode();
-            }
-        }
-    }
-    private void Explode()
-    {
-        GameObject boom = Instantiate(prefabExplosion, transform.position, Quaternion.identity);
-        Destroy(boom, 2);
-        isDead = true;
-        Destroy(gameObject);
-    }
+  
     private void DetectGround()
     {
         RaycastHit hit;
