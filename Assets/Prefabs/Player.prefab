@@ -118,7 +118,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1922138090188922}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -377,7 +377,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suspension: {fileID: 4222615516456892}
   model: {fileID: 4939839831548758}
-  prefabExplosion: {fileID: 0}
+  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
+    type: 2}
   throttleMin: 800
   throttleMax: 2000
   throttleMaxAir: 1500

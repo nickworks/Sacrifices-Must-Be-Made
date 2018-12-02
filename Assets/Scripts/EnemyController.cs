@@ -65,9 +65,11 @@ public class EnemyController : MonoBehaviour {
         switch (state) {
             case AIStates.chase:
                 Chase(forward);
+                state = CheckExitChase();
                 break;
             case AIStates.coast:
-
+                Coast(forward);
+                state = CheckExitCoast();
                 break;
             default:
                 print("Error: AI Statemachine in EnemyController.cs is out of bounds");
@@ -100,8 +102,12 @@ public class EnemyController : MonoBehaviour {
     }
 
 
-   
+   /// <summary>
+   /// This behavior should be called when the enemy to catch up to the player or slow down to get close the player, it throttles baised on th eposition of the player
+   /// </summary>
+   /// <param name="forward"> The forward vector along whitch w should be adding our force </param>
     void Chase(Vector3 forward) {
+        print("chase");
         float dist = target.position.z - transform.position.z; //how far away is the player
 
         float v = dist / offset;// divide that by the desierd offset
@@ -111,11 +117,63 @@ public class EnemyController : MonoBehaviour {
         Vector3 force = forward * throttle;//forward speed
 
         body.AddForce(force * Time.deltaTime);
-        print(body.velocity);
+        //print("Enemy: " + body.velocity);
+        //print(Vector3.Distance(transform.position,target.position));
+        //print(body.velocity.z - targetBody.velocity.z);
         
     }
 
+    /// <summary>
+    /// This function contains the conditons under whitch we should exit the chase state 
+    /// </summary>
+    /// <returns>The state we should transition too, returnes AIStates.chase if no transition should take place</returns>
+    AIStates CheckExitChase() {
+        //if we are close to the player and not going a lot faster than them
+        if (Vector3.Distance(transform.position, target.position) <= offset) {
+            print("close enough");
+            if (body.velocity.z - targetBody.velocity.z < 10) {
+                print("correct velocity");
+                EnterCoast();
+                return  AIStates.coast;
+            } 
+        }
+        return AIStates.chase;
+    }
+
+    void EnterCoast() {
+
+    }
+
+    /// <summary>
+    /// This behavior should be called when we want to coast alongside the player, it throttals baised on velocity
+    /// </summary>
+    /// <param name="forward">The forward vector along whitch w should be adding our force </param>
     void Coast(Vector3 forward) {
+        print("coast");
+
+        float v = targetBody.velocity.z - body.velocity.z ;
+        print(v);
+
+        float throttle = Mathf.Lerp(throttleMin, throttleMax, v);
+
+        Vector3 force = forward * throttle;//forward speed
+
+        body.AddForce(force * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// This function contains the conditons under whitch we should exit the coast state 
+    /// </summary>
+    /// <returns>The state we should transition too, returnes AIStates.coast if no transition should take place</returns>
+    AIStates CheckExitCoast() {
+        if (Vector3.Distance(transform.position, target.position) >= offset) {
+            return AIStates.chase;
+        }
+        return AIStates.coast;
+    }
+
+    void Cutoff(Vector3 forward) {
+        print("cutoff");
 
     }
 

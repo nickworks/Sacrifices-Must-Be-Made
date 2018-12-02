@@ -92,6 +92,8 @@ public class PlayerController : MonoBehaviour {
         Debug.DrawRay(transform.position, forward);
 
         body.AddForce(force * Time.deltaTime);
+        //print("Player: " + body.velocity);
+
 
         float turnAngle = Mathf.Atan2(body.velocity.x, body.velocity.z) * 180 / Mathf.PI;
         return turnAngle;
