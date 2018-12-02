@@ -10,9 +10,9 @@ public class EnemyController : MonoBehaviour {
     public Transform suspension;
     public Transform model;
 
-    public float throttleMin = 800;
-    public float throttleMax = 2000;
-    public float turnMultiplier = 100;
+    public float throttleMin = 790;
+    public float throttleMax = 2500;
+    public float turnMultiplier = 1;
 
     //Vector3 vector3 = new Vector3(0, 0, 1);
 
@@ -20,19 +20,27 @@ public class EnemyController : MonoBehaviour {
     /// The target distance from the player along the z axis
     /// </summary>
     float offset = 10;
-
+    /// <summary>
+    /// How long should we coast for in seconds
+    /// </summary>
+    float coastTimer;
+    /// <summary>
+    /// Are we touching the ground
+    /// </summary>
     bool isGrounded = false;
 
 
     enum AIStates {
         chase,
         coast,
-        cutoff
+        cutoff,
         //cut player off?
         //set player into tailspin?
         //knock player of edge or into wall?
         // Cut Off: If we are in front of the player, move in their direction along the X-Axis
         // Suicide Dash/Push POC: If we are close to the player and moveing at a similar velocity, move twoard them along the X-Axis 
+        // Charge, slow down for a second and then throw Themselves at the player
+
 
 
     }
@@ -71,6 +79,10 @@ public class EnemyController : MonoBehaviour {
                 Coast(forward);
                 state = CheckExitCoast();
                 break;
+            case AIStates.cutoff:
+                Cutoff(forward);
+                state = CheckExitCutoff();
+                break;
             default:
                 print("Error: AI Statemachine in EnemyController.cs is out of bounds");
                 break;
@@ -93,19 +105,19 @@ public class EnemyController : MonoBehaviour {
         if (isGrounded) {
             rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
         } else {
-           float pitch = -body.velocity.y * 2;
-           rot = Quaternion.Euler(pitch, 0, 0);
+            float pitch = -body.velocity.y * 2;
+            rot = Quaternion.Euler(pitch, 0, 0);
 
         }
 
-        SetModelPosAndRot(rot,yaw);
+        SetModelPosAndRot(rot, yaw);
     }
 
 
-   /// <summary>
-   /// This behavior should be called when the enemy to catch up to the player or slow down to get close the player, it throttles baised on th eposition of the player
-   /// </summary>
-   /// <param name="forward"> The forward vector along whitch w should be adding our force </param>
+    /// <summary>
+    /// This behavior should be called when the enemy to catch up to the player or slow down to get close the player, it throttles baised on th eposition of the player
+    /// </summary>
+    /// <param name="forward"> The forward vector along whitch w should be adding our force </param>
     void Chase(Vector3 forward) {
         //print("chase");
         float dist = target.position.z - transform.position.z; //how far away is the player
@@ -120,7 +132,7 @@ public class EnemyController : MonoBehaviour {
         //print("Enemy: " + body.velocity);
         //print(Vector3.Distance(transform.position,target.position));
         //print(body.velocity.z - targetBody.velocity.z);
-        
+
     }
 
     /// <summary>
@@ -134,14 +146,18 @@ public class EnemyController : MonoBehaviour {
             if (body.velocity.z - targetBody.velocity.z < 10) {
                 //print("correct velocity");
                 EnterCoast();
-                return  AIStates.coast;
-            } 
+                return AIStates.coast;
+            }
         }
         return AIStates.chase;
     }
 
     void EnterCoast() {
-
+        if (transform.position.z > target.position.z) {
+            coastTimer = Random.Range(1f, 2);
+        } else {
+            coastTimer = Random.Range(2, 5);
+        }
     }
 
     /// <summary>
@@ -159,6 +175,8 @@ public class EnemyController : MonoBehaviour {
         Vector3 force = forward * throttle;//forward speed
 
         body.AddForce(force * Time.deltaTime);
+
+        coastTimer -= Time.deltaTime;
     }
 
     /// <summary>
@@ -169,13 +187,45 @@ public class EnemyController : MonoBehaviour {
         if (Vector3.Distance(transform.position, target.position) >= offset) {
             return AIStates.chase;
         }
+        if (coastTimer <= 0 && transform.position.z > target.position.z) {
+            return AIStates.cutoff;
+        }
         return AIStates.coast;
     }
 
+
+
     void Cutoff(Vector3 forward) {
         print("cutoff");
+        bool withinRange = Mathf.Abs(transform.position.x - target.position.x) <= 2;
+
+        if (transform.position.x > target.position.x && !withinRange) {
+            forward.x += -turnMultiplier;
+        } else if (!withinRange) {
+            forward.x += turnMultiplier;
+        }
+
+        Vector3 force;
+
+        if (withinRange) {
+            force = forward;
+        } else {
+            float v = targetBody.velocity.z - body.velocity.z;
+            float throttle = Mathf.Lerp(throttleMin, throttleMax, v);
+            force = forward * throttle; // forward speed
+        }
+
+        body.AddForce(force * Time.deltaTime);
 
     }
+    AIStates CheckExitCutoff() {
+        if (Vector3.Distance(transform.position, target.position) >= offset) {
+            return AIStates.chase;
+        }
+        return AIStates.cutoff;
+    }
+
+
 
 
     /// <summary>
