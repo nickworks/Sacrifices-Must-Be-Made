@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour {
     
 
     float Drive(Vector3 forward) {
-
+        if (!target) return 0;
         float dist = target.position.z - transform.position.z; //how far away is the player
 
         float v = dist / offset; // divide that by the desierd offset

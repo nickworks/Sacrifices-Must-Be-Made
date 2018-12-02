@@ -188,8 +188,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suspension: {fileID: 4222615516456892}
   model: {fileID: 4329287801252564}
+  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
+    type: 2}
   throttleMin: 800
   throttleMax: 2000
+  throttleMaxAir: 1500
   turnMultiplier: 1
 --- !u!135 &135716548322855288
 SphereCollider:
