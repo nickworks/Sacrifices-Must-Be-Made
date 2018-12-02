@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   age: 0
-  lifespan: 2
+  lifespan: 1
   prefabExplosion: {fileID: 1551211562780154, guid: 7332fe54d4fdcd54b9e47195e5f9732c,
     type: 2}
 --- !u!114 &114544892007217760
