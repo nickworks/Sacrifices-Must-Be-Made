@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ImpactExplosion : MonoBehaviour {
-
-    Rigidbody body;
     Vector3 prevVelocity;
     public float threshold = 0;
     public GameObject prefabExplosion;
@@ -13,7 +11,6 @@ public class ImpactExplosion : MonoBehaviour {
 
     void Start()
     {
-        body = GetComponent<Rigidbody>();
     }
     void Explode()
     {

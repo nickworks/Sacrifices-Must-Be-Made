@@ -107,7 +107,7 @@ public class EnemyController : MonoBehaviour {
    /// </summary>
    /// <param name="forward"> The forward vector along whitch w should be adding our force </param>
     void Chase(Vector3 forward) {
-        print("chase");
+        //print("chase");
         float dist = target.position.z - transform.position.z; //how far away is the player
 
         float v = dist / offset;// divide that by the desierd offset
@@ -130,9 +130,9 @@ public class EnemyController : MonoBehaviour {
     AIStates CheckExitChase() {
         //if we are close to the player and not going a lot faster than them
         if (Vector3.Distance(transform.position, target.position) <= offset) {
-            print("close enough");
+            //print("close enough");
             if (body.velocity.z - targetBody.velocity.z < 10) {
-                print("correct velocity");
+                //print("correct velocity");
                 EnterCoast();
                 return  AIStates.coast;
             } 
@@ -149,10 +149,10 @@ public class EnemyController : MonoBehaviour {
     /// </summary>
     /// <param name="forward">The forward vector along whitch w should be adding our force </param>
     void Coast(Vector3 forward) {
-        print("coast");
+        //print("coast");
 
         float v = targetBody.velocity.z - body.velocity.z ;
-        print(v);
+        //print(v);
 
         float throttle = Mathf.Lerp(throttleMin, throttleMax, v);
 
