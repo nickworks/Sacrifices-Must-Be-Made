@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    Rigidbody body;
+    static public PlayerController main;
+
+    public Rigidbody body;
     public Transform suspension;
     public Transform model;
 
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour {
     Vector3 up = Vector3.up;
 
     void Start () {
+        main = this;
         body = GetComponent<Rigidbody>();	
 	}
 

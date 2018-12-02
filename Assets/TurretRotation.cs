@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class TurretRotation : MonoBehaviour {
 
-    public GameObject prefabProjectile;
-    public Transform spawnPosition;
-    	
-	// Update is called once per frame
-	void FixedUpdate () {
+    public GameObject prefabBarrel;
+    public Transform spawnPoint;
+
+    // Update is called once per frame
+    void FixedUpdate () {
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // make a ray
         Plane aimPlane = new Plane(Vector3.up, transform.position); // make a plane
@@ -23,12 +23,20 @@ public class TurretRotation : MonoBehaviour {
             float parentYaw = transform.parent.eulerAngles.y;
             transform.localEulerAngles = new Vector3(0, yaw - parentYaw, 0);
         }
-
+    }
+    void Update()
+    {
         if (Input.GetMouseButtonDown(0))
         {
+
+            GameObject obj = Instantiate(prefabBarrel, spawnPoint.position, Quaternion.identity);
+            Vector3 dir = spawnPoint.position - transform.position;
+
+            Rigidbody barrel = obj.GetComponent<Rigidbody>();
+            barrel.velocity += PlayerController.main.body.velocity;
             
+            barrel.AddForce(dir * 10, ForceMode.Impulse);
 
         }
-
     }
 }

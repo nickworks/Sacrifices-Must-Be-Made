@@ -46,6 +46,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1390291760039936
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4264600912445414}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1611657364119320
 GameObject:
   m_ObjectHideFlags: 1
@@ -118,7 +133,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1922138090188922}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -139,6 +154,19 @@ Transform:
   - {fileID: 4939839831548758}
   m_Father: {fileID: 4210597123389342}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4264600912445414
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1390291760039936}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.064, y: 0.528, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4939446446680284}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4329287801252564
 Transform:
@@ -177,6 +205,7 @@ Transform:
   m_LocalScale: {x: 0.5319675, y: 0.5319675, z: 0.5319675}
   m_Children:
   - {fileID: 4644252793479244}
+  - {fileID: 4264600912445414}
   m_Father: {fileID: 4939839831548758}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -362,8 +391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fcca9e377b9a2b4fac9c0d71bf49d08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabProjectile: {fileID: 0}
-  spawnPosition: {fileID: 0}
+  prefabBarrel: {fileID: 1843774293268998, guid: 9e4f1fe2a0f1b8742a1e0010a00c0e6c,
+    type: 2}
+  spawnPoint: {fileID: 4264600912445414}
 --- !u!114 &114694407518799300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -377,7 +407,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suspension: {fileID: 4222615516456892}
   model: {fileID: 4939839831548758}
-  prefabExplosion: {fileID: 0}
+  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
+    type: 2}
   throttleMin: 800
   throttleMax: 2000
   throttleMaxAir: 1500
