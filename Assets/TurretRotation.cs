@@ -3,41 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretRotation : MonoBehaviour {
-    Camera mainCamera;
 
-    public GameObject projectile;
+    public GameObject prefabProjectile;
     public Transform spawnPosition;
-    Quaternion startingRotation;
-
-    public float rayLength;
-    // Use this for initialization
-    void Start () {
-        mainCamera = Camera.main;
-	}
-	
+    	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // make a ray
+        Plane aimPlane = new Plane(Vector3.up, transform.position); // make a plane
+
+        float rayLength = 0;
+        if(aimPlane.Raycast(ray, out rayLength)) // detect if the ray intersects the plane
+        {
+            Vector3 hit = ray.GetPoint(rayLength); // detect where the intersection is
+
+            Vector3 dis = transform.position - hit;
+            float yaw = -Mathf.Atan2(dis.z, dis.x) * 180 / Mathf.PI;
+            float parentYaw = transform.parent.eulerAngles.y;
+            transform.localEulerAngles = new Vector3(0, yaw - parentYaw, 0);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-            
-
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Vector3 rayPoint = ray.GetPoint(rayLength);
-
-            if(Physics.Raycast(ray.origin, rayPoint,  out hit))
-            {
-                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
-            }
-
-            Debug.DrawLine(ray.origin, rayPoint, Color.red);
-
             
 
         }
 
     }
-
-
-  
 }
