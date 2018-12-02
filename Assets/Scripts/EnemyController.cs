@@ -14,6 +14,8 @@ public class EnemyController : MonoBehaviour {
     public float throttleMax = 2500;
     public float turnMultiplier = 1;
 
+    ImpactExplosion explosion;
+
     float distToPlayer;
 
     //Vector3 vector3 = new Vector3(0, 0, 1);
@@ -62,6 +64,7 @@ public class EnemyController : MonoBehaviour {
         target = PlayerController.main.transform;
         targetBody = PlayerController.main.body;
         body.AddForce(0, 0, 2000);
+        explosion = GetComponent<ImpactExplosion>();
     }
 
     void Update() {
@@ -245,7 +248,7 @@ public class EnemyController : MonoBehaviour {
     void Charge(Vector3 forward) {
        // print("charge");
 
-        if (isGrounded && target.position.z - transform.position.z <= 2) {
+        if (isGrounded && target.position.z - transform.position.z <= 5) {
             Vector3 direction = target.position - transform.position;
 
             float v = Mathf.Clamp(targetBody.velocity.z - body.velocity.z, 0, 1);
@@ -256,8 +259,6 @@ public class EnemyController : MonoBehaviour {
             float throttle = Mathf.Lerp(chargeMin, chargeMax, v);
 
             body.AddForce(direction * throttle);
-        } else {
-            Coast(forward);   
         }
 
     }
@@ -270,6 +271,8 @@ public class EnemyController : MonoBehaviour {
         }
         return AIStates.charge;
     }
+
+   
 
 
     /*
@@ -318,12 +321,18 @@ public class EnemyController : MonoBehaviour {
 
     void HandleDead() {
         if (isDead || !target) {
-            Destroy(gameObject);
+            explosion.Explode();
         }
     }
 
     private void OnDestroy() {
         EnemySpawner.EnemyDead();
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            explosion.Explode();
+        }
     }
 
 
