@@ -35,7 +35,7 @@ public class TurretRotation : MonoBehaviour {
             Rigidbody barrel = obj.GetComponent<Rigidbody>();
             barrel.velocity += PlayerController.main.body.velocity;
             
-            barrel.AddForce(dir * 10, ForceMode.Impulse);
+            barrel.AddForce(dir * 20, ForceMode.Impulse);
             barrel.AddTorque(Random.onUnitSphere * 10);
         }
     }

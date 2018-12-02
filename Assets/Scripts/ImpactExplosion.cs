@@ -15,21 +15,10 @@ public class ImpactExplosion : MonoBehaviour {
     {
         body = GetComponent<Rigidbody>();
     }
-	void Update () {
-        if(spawnSafetyTimer > 0)
-            spawnSafetyTimer -= Time.deltaTime;
-        else
-            CheckForCrash();
-	}
-    private void CheckForCrash()
-    {
-        Vector3 deltaVelocity = body.velocity - prevVelocity;
-        prevVelocity = body.velocity;
-        if(ignoreVertical) deltaVelocity.y = 0;
-    }
     void Explode()
     {
         Destroy(gameObject);
+
         GameObject particles = Instantiate(prefabExplosion, transform.position, Quaternion.identity);
         Destroy(particles, 2);
     }
@@ -43,7 +32,7 @@ public class ImpactExplosion : MonoBehaviour {
 
             if (col.impulse.sqrMagnitude * multiplier > threshold * threshold)
             {
-                Explode();
+                Explode();// col.impulse.normalized);
             }
         }
     }
