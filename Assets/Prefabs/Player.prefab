@@ -409,6 +409,8 @@ MonoBehaviour:
   body: {fileID: 0}
   suspension: {fileID: 4222615516456892}
   model: {fileID: 4939839831548758}
+  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
+    type: 2}
   throttleMin: 800
   throttleMax: 2000
   throttleMaxAir: 1500
