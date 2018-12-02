@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 114978728852677132}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -409,8 +409,6 @@ MonoBehaviour:
   body: {fileID: 0}
   suspension: {fileID: 4222615516456892}
   model: {fileID: 4939839831548758}
-  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
-    type: 2}
   throttleMin: 800
   throttleMax: 2000
   throttleMaxAir: 1500

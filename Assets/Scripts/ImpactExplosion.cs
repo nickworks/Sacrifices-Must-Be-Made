@@ -19,6 +19,7 @@ public class ImpactExplosion : MonoBehaviour {
         GameObject particles = Instantiate(prefabExplosion, transform.position, Quaternion.identity);
         Destroy(particles, 2);
     }
+
     void OnCollisionEnter(Collision col)
     {
         if(col.impulse.sqrMagnitude > threshold * threshold)

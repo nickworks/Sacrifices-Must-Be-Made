@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 135535317563498276}
   - component: {fileID: 114916458203105158}
   - component: {fileID: 54443302743634026}
+  - component: {fileID: 114328807495504878}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -175,6 +176,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114328807495504878
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444962041668474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0df33ac477635c3478fecb188f96997c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 30
+  prefabExplosion: {fileID: 1352175875469596, guid: 4648d190e64ec6444adfe72853721c0a,
+    type: 2}
+  ignoreVertical: 1
+  spawnSafetyTimer: 0.1
 --- !u!114 &114916458203105158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,12 +203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6669cc4afa955d440887740d2bf6e067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   suspension: {fileID: 4804582645838682}
   model: {fileID: 4474046873977592}
   throttleMin: 750
   throttleMax: 2500
-  turnMultiplier: 100
+  turnMultiplier: 1
 --- !u!135 &135535317563498276
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -6,13 +6,15 @@ public class EnemyController : MonoBehaviour {
 
     Rigidbody body;
     Rigidbody targetBody;
-    public Transform target;
+    Transform target; 
     public Transform suspension;
     public Transform model;
 
     public float throttleMin = 790;
     public float throttleMax = 2500;
     public float turnMultiplier = 1;
+
+    float distToPlayer;
 
     //Vector3 vector3 = new Vector3(0, 0, 1);
 
@@ -29,11 +31,18 @@ public class EnemyController : MonoBehaviour {
     /// </summary>
     bool isGrounded = false;
 
+    bool isDead = false;
+
+    float chargePercent;
+
 
     enum AIStates {
         chase,
         coast,
         cutoff,
+        charge,
+        dash,
+        fallback
         //cut player off?
         //set player into tailspin?
         //knock player of edge or into wall?
@@ -50,13 +59,15 @@ public class EnemyController : MonoBehaviour {
 
     void Start() {
         body = GetComponent<Rigidbody>();
-
-        if (!target) return;
-        targetBody = target.GetComponent<Rigidbody>();
+        target = PlayerController.main.transform;
+        targetBody = PlayerController.main.body;
+        body.AddForce(0, 0, 2000);
     }
 
     void Update() {
-        if (!target) return;
+        HandleDead();
+        
+        distToPlayer = Vector3.Distance(transform.position, target.position);
 
         RaycastHit hit;
         isGrounded = (Physics.Raycast(transform.position, Vector3.down, out hit, 1.0f));
@@ -83,35 +94,23 @@ public class EnemyController : MonoBehaviour {
                 Cutoff(forward);
                 state = CheckExitCutoff();
                 break;
+            case AIStates.charge:
+                Charge(forward);
+                state = CheckExitCharge();
+                break;
             default:
                 print("Error: AI Statemachine in EnemyController.cs is out of bounds");
                 break;
 
         }
 
+        CheckIfDead();
+
         HandleGroundedRotBehavior(hit, CalcYaw());
     }
 
 
-    /// <summary>
-    /// This function sets diffred rotation veluus depending on whether or not we are grounded 
-    /// </summary>
-    /// <param name="hit">The raycast thet detectrs the ground, used to get the normals</param>
-    /// <param name="yaw">our yaw baised on the forward velocity</param>
-    void HandleGroundedRotBehavior(RaycastHit hit, float yaw) {
-
-        Quaternion rot;
-
-        if (isGrounded) {
-            rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
-        } else {
-            float pitch = -body.velocity.y * 2;
-            rot = Quaternion.Euler(pitch, 0, 0);
-
-        }
-
-        SetModelPosAndRot(rot, yaw);
-    }
+    
 
 
     /// <summary>
@@ -141,7 +140,7 @@ public class EnemyController : MonoBehaviour {
     /// <returns>The state we should transition too, returnes AIStates.chase if no transition should take place</returns>
     AIStates CheckExitChase() {
         //if we are close to the player and not going a lot faster than them
-        if (Vector3.Distance(transform.position, target.position) <= offset) {
+        if (distToPlayer <= offset) {
             //print("close enough");
             if (body.velocity.z - targetBody.velocity.z < 10) {
                 //print("correct velocity");
@@ -156,7 +155,7 @@ public class EnemyController : MonoBehaviour {
         if (transform.position.z > target.position.z) {
             coastTimer = Random.Range(1f, 2);
         } else {
-            coastTimer = Random.Range(2, 5);
+            coastTimer = Random.Range(3, 5);
         }
     }
 
@@ -165,7 +164,7 @@ public class EnemyController : MonoBehaviour {
     /// </summary>
     /// <param name="forward">The forward vector along whitch w should be adding our force </param>
     void Coast(Vector3 forward) {
-        //print("coast");
+       // print("coast");
 
         float v = targetBody.velocity.z - body.velocity.z ;
         //print(v);
@@ -184,11 +183,20 @@ public class EnemyController : MonoBehaviour {
     /// </summary>
     /// <returns>The state we should transition too, returnes AIStates.coast if no transition should take place</returns>
     AIStates CheckExitCoast() {
-        if (Vector3.Distance(transform.position, target.position) >= offset) {
+        if (distToPlayer >= offset) {
             return AIStates.chase;
         }
+
         if (coastTimer <= 0 && transform.position.z > target.position.z) {
             return AIStates.cutoff;
+        } else if (coastTimer <= 0 && transform.position.z < target.position.z) {
+            float v = Random.value;
+            if (true){ //v <= 0.5f) {
+                EnterCharge();
+                return AIStates.charge;
+            } else {
+                return AIStates.dash;
+            }
         }
         return AIStates.coast;
     }
@@ -196,36 +204,149 @@ public class EnemyController : MonoBehaviour {
 
 
     void Cutoff(Vector3 forward) {
-        print("cutoff");
-        bool withinRange = Mathf.Abs(transform.position.x - target.position.x) <= 2;
+        //print("cutoff");
+        if (isGrounded) {
+            bool withinRange = Mathf.Abs(transform.position.x - target.position.x) <= 2;
 
-        if (transform.position.x > target.position.x && !withinRange) {
-            forward.x += -turnMultiplier;
-        } else if (!withinRange) {
-            forward.x += turnMultiplier;
-        }
+            if (transform.position.x > target.position.x && !withinRange) {
+                forward.x += -turnMultiplier;
+            } else if (!withinRange) {
+                forward.x += turnMultiplier;
+            }
 
-        Vector3 force;
+            Vector3 force;
 
-        if (withinRange) {
-            force = forward;
+            if (withinRange) {
+                force = forward;
+            } else {
+                float v = targetBody.velocity.z - body.velocity.z;
+                float throttle = Mathf.Lerp(throttleMin, throttleMax, v);
+                force = forward * throttle; // forward speed
+            }
+
+            body.AddForce(force * Time.deltaTime);
         } else {
-            float v = targetBody.velocity.z - body.velocity.z;
-            float throttle = Mathf.Lerp(throttleMin, throttleMax, v);
-            force = forward * throttle; // forward speed
+            Coast(forward);
         }
-
-        body.AddForce(force * Time.deltaTime);
-
     }
+
     AIStates CheckExitCutoff() {
-        if (Vector3.Distance(transform.position, target.position) >= offset) {
+        if (distToPlayer >= offset) {
             return AIStates.chase;
         }
         return AIStates.cutoff;
     }
 
+    void EnterCharge() {
+        //transform.LookAt(target);
+    }
 
+    void Charge(Vector3 forward) {
+       // print("charge");
+
+        if (isGrounded && target.position.z - transform.position.z <= 2) {
+            Vector3 direction = target.position - transform.position;
+
+            float v = Mathf.Clamp(targetBody.velocity.z - body.velocity.z, 0, 1);
+
+            float chargeMin = 25;
+            float chargeMax = 50;
+
+            float throttle = Mathf.Lerp(chargeMin, chargeMax, v);
+
+            body.AddForce(direction * throttle);
+        } else {
+            Coast(forward);   
+        }
+
+    }
+
+    AIStates CheckExitCharge() {
+
+        if (distToPlayer <= 3 || distToPlayer > offset) {
+            //chargePercent = 0;
+            return AIStates.chase;
+        }
+        return AIStates.charge;
+    }
+
+
+    /*
+    void Dash(Vector3 forward) {
+        float dist = target.position.z - transform.position.z; //how far away is the player
+
+        float v = dist / offset;// divide that by the desierd offset
+
+        float throttle = Mathf.Lerp(throttleMin, throttleMax, v);
+
+        Vector3 force = forward * throttle;//forward speed
+
+        body.AddForce(force * Time.deltaTime);
+    }
+
+    AIStates CheckExitDash() {
+        return AIStates.dash;
+    }
+
+    void FallBack() {
+
+
+    }
+
+    AIStates CheckExitFallBack() {
+        return AIStates.fallback;
+    }
+    */
+
+
+    ///////////////////////////////////////////////////////// HANDLE DEATH ///////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 
+    /// </summary>
+    void CheckIfDead() {
+
+        if (transform.position.z < target.position.z && distToPlayer > 50) {
+            isDead = true;
+        }
+
+        if (transform.position.y < -100) {
+            isDead = true;
+        }
+    }
+
+    void HandleDead() {
+        if (isDead || !target) {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy() {
+        EnemySpawner.EnemyDead();
+    }
+
+
+    //////////////////////////////////////////////////////// MODEL RNDERING //////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// This function sets diffred rotation veluus depending on whether or not we are grounded 
+    /// </summary>
+    /// <param name="hit">The raycast thet detectrs the ground, used to get the normals</param>
+    /// <param name="yaw">our yaw baised on the forward velocity</param>
+    void HandleGroundedRotBehavior(RaycastHit hit, float yaw) {
+
+        Quaternion rot;
+
+        if (isGrounded) {
+            rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
+        } else {
+            float pitch = -body.velocity.y * 2;
+            rot = Quaternion.Euler(pitch, 0, 0);
+
+        }
+
+        SetModelPosAndRot(rot, yaw);
+    }
 
 
     /// <summary>
