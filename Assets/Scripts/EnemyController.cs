@@ -335,6 +335,12 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.CompareTag("Explosion")) {
+            explosion.Explode();
+        }
+    }
+
 
     //////////////////////////////////////////////////////// MODEL RNDERING //////////////////////////////////////////////////////////////////
 
