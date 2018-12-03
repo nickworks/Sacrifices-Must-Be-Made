@@ -12,7 +12,7 @@ public class ImpactExplosion : MonoBehaviour {
     void Start()
     {
     }
-    void Explode()
+    public void Explode()
     {
         Destroy(gameObject);
 
