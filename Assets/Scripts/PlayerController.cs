@@ -5,11 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     static public PlayerController main;
+    static public float score = 0;
 
     public float attackCost = 5;
     public float maximumFuel = 100;
     public float currentFuel { get; private set; }
-    
+
 
     public Rigidbody body { get; private set; }
     public Transform suspension;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Start () {
+        score = 0;
         main = this;
         body = GetComponent<Rigidbody>();
         currentFuel = maximumFuel;
@@ -100,4 +102,5 @@ public class PlayerController : MonoBehaviour {
         suspension.rotation = Quaternion.RotateTowards(suspension.rotation, rot, rotateSpeed * Time.deltaTime);
         if(model) model.localEulerAngles = new Vector3(0, turn, 0);
     }
+    
 }
