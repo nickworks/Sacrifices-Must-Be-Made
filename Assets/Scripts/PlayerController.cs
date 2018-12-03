@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
     static public PlayerController main;
 
-    public Rigidbody body;
+    public Rigidbody body { get; private set; }
     public Transform suspension;
     public Transform model;
 
