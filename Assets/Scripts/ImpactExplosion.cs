@@ -22,6 +22,7 @@ public class ImpactExplosion : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
+        if (col.gameObject.tag == null) return;
         if(col.gameObject.tag == "Pickup")
         {
             PlayerController.main.AddFuel(10);
