@@ -152,33 +152,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114978728852677132, guid: a814bf02a83ba9945ae89e2335553603,
-        type: 2}
-      propertyPath: turretRotation
-      value: 
-      objectReference: {fileID: 2047713681}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a814bf02a83ba9945ae89e2335553603, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &640586158 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1922138090188922, guid: a814bf02a83ba9945ae89e2335553603,
-    type: 2}
-  m_PrefabInternal: {fileID: 106651352}
---- !u!114 &640586159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 640586158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61c5fabf4a1bc2945baae543360d153d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabHUD: {fileID: 114897097810191700, guid: ba44ddb0905512d42a4c9891b67eb5cb,
-    type: 2}
-  speedometerMaxVelocity: 80
 --- !u!1 &812214919
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +211,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 812214919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2cdba20687156994dafd92135b69a662, type: 3}
   m_Name: 
@@ -535,12 +511,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4210597123389342, guid: a814bf02a83ba9945ae89e2335553603,
     type: 2}
   m_PrefabInternal: {fileID: 106651352}
---- !u!114 &2047713681 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114259070835342302, guid: a814bf02a83ba9945ae89e2335553603,
-    type: 2}
-  m_PrefabInternal: {fileID: 106651352}
-  m_Script: {fileID: 11500000, guid: 7fcca9e377b9a2b4fac9c0d71bf49d08, type: 3}
 --- !u!4 &2141918326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4613512386788506, guid: 0f5981a0da22dbe4fa785cbba80546a7,
