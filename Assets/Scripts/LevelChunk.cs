@@ -10,25 +10,21 @@ public class LevelChunk : MonoBehaviour {
 
     [Range(0,1)]
     public float chanceOfFuel = .5f;
-    public Transform[] fuelSpawnPoints;
-    public Transform[] moneySpawnPoints;
 
     void Start () {
         SpawnFuel();
 	}
     void SpawnFuel()
     {
-        int numberOfBarrels = (int)(chanceOfFuel * fuelSpawnPoints.Length);
-        List<Transform> spots = new List<Transform>(fuelSpawnPoints);
-        for(int i = 0; i < numberOfBarrels; i++)
+        List<PickupController> barrels = new List<PickupController>(GetComponentsInChildren<PickupController>());
+        int numberOfBarrels = (int)(chanceOfFuel * barrels.Count);
+
+        while(barrels.Count > numberOfBarrels)
         {
-            int index = Random.Range(0, spots.Count);
-            Transform winner = spots[index];
-            spots.RemoveAt(index);
-            Instantiate(prefabFuel, winner.position, winner.rotation, transform);
+            int index = Random.Range(0, barrels.Count);
+            Destroy(barrels[index].gameObject);
+            barrels.RemoveAt(index);
         }
-
-
     }
 	
 	void Update () {

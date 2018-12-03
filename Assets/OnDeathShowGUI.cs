@@ -6,7 +6,7 @@ public class OnDeathShowGUI : MonoBehaviour {
 
     public GameObject prefabGUI;
 
-	void OnDestroy()
+	void Explode()
     {
         Instantiate(prefabGUI);
     }

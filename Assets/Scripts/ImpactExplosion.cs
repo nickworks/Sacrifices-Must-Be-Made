@@ -36,7 +36,8 @@ public class ImpactExplosion : MonoBehaviour {
 
             if (col.impulse.sqrMagnitude * multiplier > threshold * threshold)
             {
-                Explode();// col.impulse.normalized);
+                //Explode();// col.impulse.normalized);
+                gameObject.SendMessage("Explode");
             }
         }
     }
