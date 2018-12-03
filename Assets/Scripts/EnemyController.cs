@@ -117,12 +117,10 @@ public class EnemyController : MonoBehaviour {
 
     float AvoidObsticles(Vector3 forward) {
         RaycastHit look;
-        print(body.velocity.z);
+        
         if (Physics.Raycast(transform.position, forward, out look, body.velocity.z)) {
-            print("hit");
-            if (!look.collider.gameObject.CompareTag("Player") || !look.collider.gameObject.CompareTag("Pickup")) {
+            if (!look.collider.gameObject.CompareTag("Player") && !look.collider.gameObject.CompareTag("Pickup")) {
                 if (look.normal.y == 0 && look.normal.z < 0 && Mathf.Abs(look.normal.x) < .5f) {
-                    print("avoidng");
                     float rightEdge = look.collider.bounds.max.x;
                     float leftEdge = look.collider.bounds.min.x;
                     if (Mathf.Abs(rightEdge - transform.position.x) > Mathf.Abs(leftEdge - transform.position.x)) {
@@ -198,7 +196,7 @@ public class EnemyController : MonoBehaviour {
     /// <param name="forward">The forward vector along whitch w should be adding our force </param>
     void Coast(Vector3 forward) {
         // print("coast");
-        forward.x += AvoidObsticles(forward);
+        forward.x += AvoidObsticles(forward) * 2;
 
         float v = targetBody.velocity.z - body.velocity.z ;
         //print(v);
