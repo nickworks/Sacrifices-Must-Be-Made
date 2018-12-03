@@ -152,6 +152,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114978728852677132, guid: a814bf02a83ba9945ae89e2335553603,
+        type: 2}
+      propertyPath: turretRotation
+      value: 
+      objectReference: {fileID: 2047713681}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a814bf02a83ba9945ae89e2335553603, type: 2}
   m_IsPrefabAsset: 0
@@ -164,6 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 812214921}
   - component: {fileID: 812214920}
+  - component: {fileID: 812214922}
   m_Layer: 0
   m_Name: LevelSpawner
   m_TagString: Untagged
@@ -204,6 +210,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812214922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 812214919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cdba20687156994dafd92135b69a662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabBarrel: {fileID: 1301351142495718, guid: 57a11299140495f47b02456cbcc50add,
+    type: 2}
+  cam: {fileID: 2141918326}
+  timer: 5
+  spawnAmount: 10
 --- !u!1001 &1363026945
 Prefab:
   m_ObjectHideFlags: 0
@@ -366,14 +388,6 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 1788518110}
-    - target: {fileID: 4943836269968144, guid: 0f5981a0da22dbe4fa785cbba80546a7, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1059196872954662, guid: 0f5981a0da22dbe4fa785cbba80546a7, type: 2}
-      propertyPath: m_TagString
-      value: MainCamera
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f5981a0da22dbe4fa785cbba80546a7, type: 2}
   m_IsPrefabAsset: 0
@@ -424,6 +438,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4210597123389342, guid: a814bf02a83ba9945ae89e2335553603,
     type: 2}
   m_PrefabInternal: {fileID: 106651352}
+--- !u!114 &2047713681 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114259070835342302, guid: a814bf02a83ba9945ae89e2335553603,
+    type: 2}
+  m_PrefabInternal: {fileID: 106651352}
+  m_Script: {fileID: 11500000, guid: 7fcca9e377b9a2b4fac9c0d71bf49d08, type: 3}
 --- !u!4 &2141918326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4613512386788506, guid: 0f5981a0da22dbe4fa785cbba80546a7,

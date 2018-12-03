@@ -8,7 +8,7 @@ public class ImpactExplosion : MonoBehaviour {
     public GameObject prefabExplosion;
     public bool ignoreVertical = true;
     public float spawnSafetyTimer = .1f;
-
+    public TurretRotation turretRotation;
     void Start()
     {
     }
@@ -21,7 +21,12 @@ public class ImpactExplosion : MonoBehaviour {
     }
     void OnCollisionEnter(Collision col)
     {
-        if(col.impulse.sqrMagnitude > threshold * threshold)
+        if(col.gameObject.tag == "Pickup")
+        {
+            Destroy(col.gameObject);
+            turretRotation.barrelAmmo++;
+        }
+        else if(col.impulse.sqrMagnitude > threshold * threshold)
         {
             // dot product of impulse & back
             float multiplier = Vector3.Dot(col.impulse.normalized, Vector3.back);
