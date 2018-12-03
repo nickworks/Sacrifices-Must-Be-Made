@@ -6,6 +6,11 @@ public class PlayerController : MonoBehaviour {
 
     static public PlayerController main;
 
+    public float attackCost = 5;
+    public float totalFuel = 100;
+    private static float currentFuel = 100;
+    
+
     public Rigidbody body;
     public Transform suspension;
     public Transform model;
@@ -21,6 +26,19 @@ public class PlayerController : MonoBehaviour {
     Vector3 forward = Vector3.forward;
     Vector3 up = Vector3.up;
 
+    public static float getFuel()
+    {
+        return currentFuel;
+    }
+    public static void setFuel(float newFuel)
+    {
+       if(currentFuel + newFuel > 100)
+        {
+            currentFuel = 100;
+        }
+            currentFuel += newFuel;
+    }
+
     void Start () {
         main = this;
         body = GetComponent<Rigidbody>();	
@@ -28,7 +46,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Update ()
     {
-
+        setFuel(-1 * Time.deltaTime);
+        print(getFuel());
         if (isDead) return;
         DetectGround();
 

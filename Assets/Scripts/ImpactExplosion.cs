@@ -23,8 +23,9 @@ public class ImpactExplosion : MonoBehaviour {
     {
         if(col.gameObject.tag == "Pickup")
         {
+            PlayerController.setFuel(20);
             Destroy(col.gameObject);
-            turretRotation.barrelAmmo++;
+            //turretRotation.barrelAmmo++;
         }
         else if(col.impulse.sqrMagnitude > threshold * threshold)
         {

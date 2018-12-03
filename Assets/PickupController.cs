@@ -15,9 +15,10 @@ public class PickupController : MonoBehaviour {
 	void Update () {
         pos = this.transform.position;
        // print(pos.z);
-        print("Cam pos" + cam.transform.position.z);
+       // print("Cam pos" + cam.transform.position.z);
         if (pos.z < cam.transform.position.z - distanceToDeletion)
         {
+            
             Destroy(gameObject);
         }
 	}

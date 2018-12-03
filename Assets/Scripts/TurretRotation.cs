@@ -6,10 +6,11 @@ public class TurretRotation : MonoBehaviour {
 
     public GameObject prefabBarrel;
     public Transform spawnPoint;
-    public int barrelAmmo = 5;
+   
     // Update is called once per frame
     void FixedUpdate () {
 
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // make a ray
         Plane aimPlane = new Plane(Vector3.up, transform.position); // make a plane
 
@@ -28,8 +29,9 @@ public class TurretRotation : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (barrelAmmo > 0)
+            if (PlayerController.getFuel() > 0)
             {
+
                 GameObject obj = Instantiate(prefabBarrel, spawnPoint.position, Quaternion.identity);
                 Vector3 dir = spawnPoint.position - transform.position;
 
@@ -38,8 +40,9 @@ public class TurretRotation : MonoBehaviour {
 
                 barrel.AddForce(dir * 20, ForceMode.Impulse);
                 barrel.AddTorque(Random.onUnitSphere * 10);
-                barrelAmmo--;
+                PlayerController.setFuel(-20);
             }
         }
     }
-}
+    }
+
