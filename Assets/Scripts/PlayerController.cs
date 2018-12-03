@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour {
     static public PlayerController main;
 
     public float attackCost = 5;
-    public float totalFuel = 100;
-    private static float currentFuel = 100;
+    public float maximumFuel = 100;
+    public float currentFuel { get; private set; }
     
 
     public Rigidbody body;
@@ -26,28 +26,22 @@ public class PlayerController : MonoBehaviour {
     Vector3 forward = Vector3.forward;
     Vector3 up = Vector3.up;
 
-    public static float getFuel()
+    public void AddFuel(float delta)
     {
-        return currentFuel;
-    }
-    public static void setFuel(float newFuel)
-    {
-       if(currentFuel + newFuel > 100)
-        {
-            currentFuel = 100;
-        }
-            currentFuel += newFuel;
+        currentFuel += delta;
+        currentFuel = Mathf.Clamp(currentFuel, 0, maximumFuel);
     }
 
     void Start () {
         main = this;
-        body = GetComponent<Rigidbody>();	
+        body = GetComponent<Rigidbody>();
+        currentFuel = maximumFuel;
 	}
 
 	void Update ()
     {
-        setFuel(-1 * Time.deltaTime);
-        print(getFuel());
+        AddFuel(-1 * Time.deltaTime); // lose 1 fuel per second
+        
         if (isDead) return;
         DetectGround();
 
@@ -90,11 +84,9 @@ public class PlayerController : MonoBehaviour {
         float throttle = Mathf.Lerp(throttleMin, isGrounded ? throttleMaxAir : throttleMax, v);
         Vector3 force = forward * throttle;
         
-        Debug.DrawRay(transform.position, forward);
+        //Debug.DrawRay(transform.position, forward);
 
         body.AddForce(force * Time.deltaTime);
-        //print("Player: " + body.velocity);
-
 
         float turnAngle = Mathf.Atan2(body.velocity.x, body.velocity.z) * 180 / Mathf.PI;
         return turnAngle;

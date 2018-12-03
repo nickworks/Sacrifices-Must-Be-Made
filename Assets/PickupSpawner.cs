@@ -29,7 +29,7 @@ public class PickupSpawner : MonoBehaviour {
     }
     void SpawnPickups(int spawnAmount)
     {
-        print("WHAT");
+        //print("WHAT");
         for (int i = 0; i < spawnAmount; i ++)
         {
             
