@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour {
     /// <summary>
     /// The target distance from the player along the z axis
     /// </summary>
-    float offset = 10;
+    float offset = 6;
     /// <summary>
     /// How long should we coast for in seconds
     /// </summary>
@@ -32,6 +32,8 @@ public class EnemyController : MonoBehaviour {
     /// Are we touching the ground
     /// </summary>
     bool isGrounded = false;
+
+
 
     bool isDead = false;
 
@@ -113,9 +115,29 @@ public class EnemyController : MonoBehaviour {
         HandleGroundedRotBehavior(hit, CalcYaw());
     }
 
+    float AvoidObsticles(Vector3 forward) {
+        RaycastHit look;
+        print(body.velocity.z);
+        if (Physics.Raycast(transform.position, forward, out look, body.velocity.z)) {
+            print("hit");
+            if (!look.collider.gameObject.CompareTag("Player") || !look.collider.gameObject.CompareTag("Pickup")) {
+                if (look.normal.y == 0 && look.normal.z < 0 && Mathf.Abs(look.normal.x) < .5f) {
+                    print("avoidng");
+                    float rightEdge = look.collider.bounds.max.x;
+                    float leftEdge = look.collider.bounds.min.x;
+                    if (Mathf.Abs(rightEdge - transform.position.x) > Mathf.Abs(leftEdge - transform.position.x)) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        }
+       return 0;
+    }
 
     
-
+    ////////////////////////////////////////////// Chase
 
     /// <summary>
     /// This behavior should be called when the enemy to catch up to the player or slow down to get close the player, it throttles baised on th eposition of the player
@@ -123,6 +145,8 @@ public class EnemyController : MonoBehaviour {
     /// <param name="forward"> The forward vector along whitch w should be adding our force </param>
     void Chase(Vector3 forward) {
         //print("chase");
+        forward.x += AvoidObsticles( forward);
+
         float dist = target.position.z - transform.position.z; //how far away is the player
 
         float v = dist / offset;// divide that by the desierd offset
@@ -155,6 +179,11 @@ public class EnemyController : MonoBehaviour {
         return AIStates.chase;
     }
 
+    /////////////////////////////////////////////////////////////////Coast
+
+    /// <summary>
+    /// This runes once before we enter the coast state
+    /// </summary>
     void EnterCoast() {
         if (transform.position.z > target.position.z) {
             coastTimer = Random.Range(1f, 2);
@@ -168,7 +197,8 @@ public class EnemyController : MonoBehaviour {
     /// </summary>
     /// <param name="forward">The forward vector along whitch w should be adding our force </param>
     void Coast(Vector3 forward) {
-       // print("coast");
+        // print("coast");
+        forward.x += AvoidObsticles(forward);
 
         float v = targetBody.velocity.z - body.velocity.z ;
         //print(v);
@@ -190,7 +220,7 @@ public class EnemyController : MonoBehaviour {
         if (distToPlayer >= offset) {
             return AIStates.chase;
         }
-
+        
         if (coastTimer <= 0 && transform.position.z > target.position.z) {
             return AIStates.cutoff;
         } else if (coastTimer <= 0 && transform.position.z < target.position.z) {
@@ -202,11 +232,21 @@ public class EnemyController : MonoBehaviour {
                 return AIStates.dash;
             }
         }
+        
         return AIStates.coast;
     }
 
 
 
+    
+
+
+    //////////////////////////////////////////////////////////////Cutoff
+
+    /// <summary>
+    /// Thsi function contatins the cutoff state behavior
+    /// </summary>
+    /// <param name="forward"></param>
     void Cutoff(Vector3 forward) {
         //print("cutoff");
         if (isGrounded) {
@@ -235,12 +275,18 @@ public class EnemyController : MonoBehaviour {
     }
 
     AIStates CheckExitCutoff() {
-        if (distToPlayer >= offset) {
+        if (distToPlayer >= offset || transform.position.z < target.position.z) {
             return AIStates.chase;
         }
         return AIStates.cutoff;
     }
 
+
+    ////////////////////////////////////////////////////////// Charge
+
+    /// <summary>
+    /// 
+    /// </summary>
     void EnterCharge() {
         //transform.LookAt(target);
     }
@@ -248,7 +294,7 @@ public class EnemyController : MonoBehaviour {
     void Charge(Vector3 forward) {
        // print("charge");
 
-        if (isGrounded && target.position.z - transform.position.z <= 5) {
+        if (isGrounded && target.position.y - transform.position.y <= 5) {
             Vector3 direction = target.position - transform.position;
 
             float v = Mathf.Clamp(targetBody.velocity.z - body.velocity.z, 0, 1);
@@ -306,7 +352,7 @@ public class EnemyController : MonoBehaviour {
     ///////////////////////////////////////////////////////// HANDLE DEATH ///////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// 
+    /// This function checks if we are violating any bounds that would cause us to be considered dead
     /// </summary>
     void CheckIfDead() {
 

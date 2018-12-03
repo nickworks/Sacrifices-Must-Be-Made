@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
 
-   static int numEnemys;
-    int maxEnemys = 5;
-    int minEnemys = 3;
+   static int numEnemys = 1;
+   public int maxEnemys = 5;
+   // int minEnemys = 3;
 
     float spawnTimer = 0;
     
@@ -20,9 +20,11 @@ public class EnemySpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       // print(numEnemys);
+
+         //print(numEnemys);
          if (numEnemys < maxEnemys && spawnTimer <= 0) {
             SpawnEnemy();
+            
         } else if (spawnTimer > 0) {
             spawnTimer -= Time.deltaTime;
         }
@@ -30,11 +32,15 @@ public class EnemySpawner : MonoBehaviour {
 
 
     void SpawnEnemy() {
-        if (!PlayerController.main) return; 
+        if (!PlayerController.main) return;
+        float buffer = 5;
+        float spawnWidth = 20;
+
         Vector3 position = PlayerController.main.transform.position;
         position.z -= Random.Range(10, 15);
-        position.x += Random.Range(-10, 10);
-
+        position.x += Random.Range(-spawnWidth, spawnWidth);
+        if (position.x > 0 && position.x < buffer) position.x = buffer;
+        if (position.x < 0 && position.x > -buffer) position.x = -buffer;
 
         Instantiate(enemyPrefab,position,Quaternion.identity);
         numEnemys++;
