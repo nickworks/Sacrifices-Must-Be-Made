@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114048196190253494}
   m_Layer: 0
   m_Name: Barrel
-  m_TagString: Untagged
+  m_TagString: Explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,6 +133,7 @@ MonoBehaviour:
     type: 2}
   ignoreVertical: 1
   spawnSafetyTimer: 0.5
+  turretRotation: {fileID: 0}
 --- !u!136 &136446380866545188
 CapsuleCollider:
   m_ObjectHideFlags: 1
