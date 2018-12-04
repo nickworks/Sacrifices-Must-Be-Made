@@ -12,7 +12,7 @@ public class PickupController : MonoBehaviour {
         {
             Destroy(gameObject);
             PlayerController.main.AddFuel(10);
-            PlayerController.score += 100;
+            PlayerController.score += 10;
         }
     }
 }

@@ -7,6 +7,7 @@ public class PlayerHUD : MonoBehaviour {
 
     public Transform speedNeedle;
     public Image[] barrels;
+    public Text score;
 
     public float speedometerMaxVelocity = 80;
     float previousAngle = 0;
@@ -15,6 +16,8 @@ public class PlayerHUD : MonoBehaviour {
     {
         UpdateFuelGauge();
         UpdateSpeedometer();
+
+        score.text = string.Join(" ", ((int)PlayerController.score).ToString().Split());
     }
     private void UpdateSpeedometer()
     {
