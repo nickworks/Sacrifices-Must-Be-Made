@@ -11,11 +11,11 @@ public class MainMenu : MonoBehaviour {
     }
     public void ButtonHowTo()
     {
-
+        SceneManager.LoadScene("HowTo");
     }
     public void ButtonCredits()
     {
-
+        SceneManager.LoadScene("Credits");
     }
     public void ButtonExit()
     {
