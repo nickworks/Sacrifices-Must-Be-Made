@@ -152,11 +152,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114978728852677132, guid: a814bf02a83ba9945ae89e2335553603,
-        type: 2}
-      propertyPath: threshold
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a814bf02a83ba9945ae89e2335553603, type: 2}
   m_IsPrefabAsset: 0

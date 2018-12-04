@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class GameOverController : MonoBehaviour {
 
+    public Text message;
     public Text score;
     public Button button;
 
     float delay = 2;
 
 	void Start () {
+
+        if (PlayerController.main && PlayerController.main.currentFuel <= 0) message.text = "No Fuel";
+
         string text = "Score : " + PlayerController.score;
         string[] chars = text.Split();
         score.text = string.Join(" ", chars);

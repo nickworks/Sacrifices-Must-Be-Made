@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 000e8f8cf9e0dfe42933023abf71cae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  message: {fileID: 114275318241364366}
   score: {fileID: 114822482175527540}
   button: {fileID: 114471872363304054}
 --- !u!114 &114822482175527540

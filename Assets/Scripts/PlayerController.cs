@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour {
     public float turnMultiplier = 1;
 
     bool isGrounded = false;
-    bool isDead = false;
 
     Vector3 forward = Vector3.forward;
     Vector3 up = Vector3.up;
@@ -44,7 +43,6 @@ public class PlayerController : MonoBehaviour {
     {
         AddFuel(-1 * Time.deltaTime); // lose 1 fuel per second
         
-        if (isDead) return;
         DetectGround();
 
         if (isGrounded) UpdateGrounded();
@@ -78,6 +76,8 @@ public class PlayerController : MonoBehaviour {
 
     float Drive()
     {
+        if (currentFuel <= 0) return 0;
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
