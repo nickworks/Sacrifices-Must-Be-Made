@@ -415,7 +415,7 @@ MonoBehaviour:
   model: {fileID: 4939839831548758}
   throttleMin: 800
   throttleMax: 2000
-  throttleMaxAir: 1500
+  throttleMaxAir: 800
   turnMultiplier: 1
 --- !u!114 &114902593959895642
 MonoBehaviour:
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df33ac477635c3478fecb188f96997c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshold: 10
+  threshold: 15
   prefabExplosion: {fileID: 1551211562780154, guid: 7332fe54d4fdcd54b9e47195e5f9732c,
     type: 2}
   ignoreVertical: 1

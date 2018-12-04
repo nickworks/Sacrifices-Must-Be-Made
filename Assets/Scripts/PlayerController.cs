@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 
         forward.x += h * turnMultiplier;
 
-        float throttle = Mathf.Lerp(throttleMin, isGrounded ? throttleMaxAir : throttleMax, v);
+        float throttle = Mathf.Lerp(throttleMin, isGrounded ? throttleMax : throttleMaxAir, v);
         Vector3 force = forward * throttle;
         
         //Debug.DrawRay(transform.position, forward);
