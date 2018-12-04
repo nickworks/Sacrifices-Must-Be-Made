@@ -235,10 +235,6 @@ public class EnemyController : MonoBehaviour {
     }
 
 
-
-    
-
-
     //////////////////////////////////////////////////////////////Cutoff
 
     /// <summary>
@@ -354,18 +350,14 @@ public class EnemyController : MonoBehaviour {
     /// </summary>
     void CheckIfDead() {
 
-        if (transform.position.z < target.position.z && distToPlayer > 50) {
-            isDead = true;
-        }
-
-        if (transform.position.y < -100) {
+        if (transform.position.z < target.position.z && distToPlayer > 50) { // too far behind
             isDead = true;
         }
     }
 
     void HandleDead() {
         if (isDead || !target) {
-            explosion.Explode();
+            Destroy(gameObject);
         }
     }
 
@@ -375,13 +367,15 @@ public class EnemyController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
-            explosion.Explode();
+            //explosion.Explode();
+            SendMessage("Explode");
         }
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Explosion")) {
-            explosion.Explode();
+            //explosion.Explode();
+            SendMessage("Explode");
         }
     }
 
@@ -430,5 +424,10 @@ public class EnemyController : MonoBehaviour {
         suspension.position = transform.position; // make the model follow the hamster wheel! 
         suspension.rotation = Quaternion.RotateTowards(suspension.rotation, rot, rotateSpeed * Time.deltaTime);
         if (model) model.localEulerAngles = new Vector3(0, turn, 0);
+    }
+
+    void Explode()
+    {
+        PlayerController.score += 500;
     }
 }

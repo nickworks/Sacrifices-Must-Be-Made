@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Update ()
     {
+        if (currentFuel > 1) score += Time.deltaTime;
+
         AddFuel(-1 * Time.deltaTime); // lose 1 fuel per second
         
         DetectGround();
