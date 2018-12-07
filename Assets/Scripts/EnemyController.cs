@@ -64,7 +64,7 @@ public class EnemyController : MonoBehaviour {
     void Start() {
         body = GetComponent<Rigidbody>();
         target = PlayerController.main.transform;
-        targetBody = PlayerController.main.body;
+        targetBody = PlayerController.main.ballBody;
         body.AddForce(0, 0, 2000);
         explosion = GetComponent<ImpactExplosion>();
     }

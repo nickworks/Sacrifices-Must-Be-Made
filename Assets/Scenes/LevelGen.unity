@@ -164,7 +164,6 @@ GameObject:
   m_Component:
   - component: {fileID: 812214921}
   - component: {fileID: 812214920}
-  - component: {fileID: 812214922}
   m_Layer: 0
   m_Name: LevelSpawner
   m_TagString: Untagged
@@ -187,11 +186,6 @@ MonoBehaviour:
   chunkUnloadOffset: 100
   prefabChunks:
   - {fileID: 114069947782396694, guid: 4d4480e95fe02124e98e8a42067ae3b3, type: 2}
-  - {fileID: 114069947782396694, guid: e783b5a7fd339c24d89efd1b48a9bd4f, type: 2}
-  - {fileID: 114069947782396694, guid: 1db096e6cc4591e4fad6522ced0500bb, type: 2}
-  - {fileID: 114069947782396694, guid: 6dd1e971c4f873a4181acdf580981450, type: 2}
-  - {fileID: 114069947782396694, guid: 693ce17fc0ce04346bd519d3e0b036cd, type: 2}
-  - {fileID: 114175125777673942, guid: fe9dff4607de3fb41bfcef7ab5a3a062, type: 2}
 --- !u!4 &812214921
 Transform:
   m_ObjectHideFlags: 0
@@ -205,17 +199,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &812214922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 812214919}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cdba20687156994dafd92135b69a662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1363026945
 Prefab:
   m_ObjectHideFlags: 0
@@ -458,7 +441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1412959126
 MonoBehaviour:
   m_ObjectHideFlags: 0

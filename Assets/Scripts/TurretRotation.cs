@@ -37,7 +37,7 @@ public class TurretRotation : MonoBehaviour {
                 Vector3 dir = spawnPoint.position - transform.position;
 
                 Rigidbody barrel = obj.GetComponent<Rigidbody>();
-                barrel.velocity += PlayerController.main.body.velocity; // inherit the car's velocity
+                barrel.velocity += PlayerController.main.ballBody.velocity; // inherit the car's velocity
 
                 barrel.AddForce(dir * 20, ForceMode.Impulse); // push the barrel
                 barrel.AddTorque(Random.onUnitSphere * 10); // random spin

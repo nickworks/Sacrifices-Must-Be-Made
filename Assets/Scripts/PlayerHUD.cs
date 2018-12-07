@@ -21,7 +21,7 @@ public class PlayerHUD : MonoBehaviour {
     }
     private void UpdateSpeedometer()
     {
-        float vel = PlayerController.main ? PlayerController.main.body.velocity.z : 0;
+        float vel = PlayerController.main ? PlayerController.main.ballBody.velocity.z : 0;
 
         float p = vel / speedometerMaxVelocity;
         p = Mathf.Clamp(p, 0, 1);
