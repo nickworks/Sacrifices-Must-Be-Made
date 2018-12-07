@@ -6,27 +6,26 @@ public class LevelChunk : MonoBehaviour {
 
     public Transform endOfChunk;
 
-    public GameObject prefabFuel;
-
     [Range(0,1)]
     public float chanceOfFuel = .5f;
 
     void Start () {
-        SpawnFuel();
+        Limit<PickupController>(chanceOfFuel);
+        Limit<ObstacleSpawner>(.5f);
 	}
-    void SpawnFuel()
+    void Limit<T>(float percent)
     {
-        List<PickupController> barrels = new List<PickupController>(GetComponentsInChildren<PickupController>());
-        int numberOfBarrels = (int)(chanceOfFuel * barrels.Count);
+        List<T> objs = new List<T>(GetComponentsInChildren<T>());
+        int numberOfBarrels = (int)(percent * objs.Count);
 
-        while(barrels.Count > numberOfBarrels)
+        while (objs.Count > numberOfBarrels)
         {
-            int index = Random.Range(0, barrels.Count);
-            Destroy(barrels[index].gameObject);
-            barrels.RemoveAt(index);
+            int index = Random.Range(0, objs.Count);
+            Destroy((objs[index] as Behaviour).gameObject);
+            objs.RemoveAt(index);
         }
     }
-	
+
 	void Update () {
 		
 	}

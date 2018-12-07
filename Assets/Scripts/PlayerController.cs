@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour {
         
         bool onSand = (isGrounded && hit.collider.material.name == "Sand (Instance)");
 
-        SetParticleRate(dustParticles, 0, onSand ? 50 : 0);
+        SetParticleRate(dustParticles, onSand ? 50 : 0);
 
         forward = isGrounded ? Vector3.Cross(Vector3.right, up) : Vector3.forward;
         up = isGrounded ? hit.normal : Vector3.up;

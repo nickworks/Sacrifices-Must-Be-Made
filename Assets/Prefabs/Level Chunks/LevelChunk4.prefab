@@ -1766,6 +1766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endOfChunk: {fileID: 4890910411661010}
   prefabFuel: {fileID: 1301351142495718, guid: 57a11299140495f47b02456cbcc50add, type: 2}
+  prefabTree: {fileID: 1168166233457752, guid: a66410ad60d452547ba215026927722f, type: 2}
   chanceOfFuel: 0.75
 --- !u!114 &114122227276446036
 MonoBehaviour:
