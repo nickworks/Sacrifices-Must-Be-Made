@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 
     public Transform suspension;
     public Transform model;
+    public LineRenderer line;
 
     public ParticleSystem[] dustParticles;
 
@@ -31,6 +32,8 @@ public class PlayerController : MonoBehaviour {
 
     Vector3 angularVelocity = Vector3.zero;
 
+    
+
     public void AddFuel(float delta)
     {
         currentFuel += delta;
@@ -41,6 +44,7 @@ public class PlayerController : MonoBehaviour {
         score = 0;
         main = this;
         ballBody = GetComponent<Rigidbody>();
+        line = GetComponentInChildren<LineRenderer>();
         currentFuel = maximumFuel;
 	}
 
@@ -51,9 +55,6 @@ public class PlayerController : MonoBehaviour {
         AddFuel(-1 * Time.deltaTime); // lose 1 fuel per second
         
         DetectGround();
-
-        
-
 
         if (isGrounded)
         {

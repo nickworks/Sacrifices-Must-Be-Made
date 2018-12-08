@@ -8,25 +8,71 @@ public class TurretRotation : MonoBehaviour {
     public Transform spawnPoint;
     public float fuelPerBarrelTossed = 10;
     public Transform cursor;
-   
-    // Update is called once per frame
-    void FixedUpdate ()
-    {
-        AimWithAnalog();
+    public AnimationCurve curve;
 
-        AimWithMouse();
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        if(PlayerInput.mode == InputMode.Gamepad)
+        {
+            cursor.parent = PlayerController.main.suspension;
+            AimWithAnalog();
+        }
+        if (PlayerInput.mode == InputMode.MouseKeyboard)
+        {
+            cursor.parent = null;
+            AimWithMouse();
+        }
+        DrawAimPath();
+    }
+
+    private void DrawAimPath()
+    {
+        Vector3[] pts = new Vector3[PlayerController.main.line.positionCount];
+        int centerIndex = pts.Length / 2;
+
+        float height = 2 * (transform.position - cursor.position).sqrMagnitude / 100;
+
+        for (int i = 0; i < pts.Length; i++)
+        {
+            int max = pts.Length - 1;
+            float p = i / (float)max;
+            Vector3 pt = Vector3.Lerp(transform.position, cursor.position, p);
+            pt.y += curve.Evaluate(p) * height;
+            pts[i] = pt;
+        }
+
+        PlayerController.main.line.SetPositions(pts);
     }
 
     private void AimWithAnalog()
     {
         float aimAxisH = Input.GetAxis("Horizontal2");
         float aimAxisV = Input.GetAxis("Vertical2");
-        print(aimAxisH);
-        transform.localEulerAngles += new Vector3(0, aimAxisH, 0) * Time.deltaTime * 1000;
+
+        Vector3 target = new Vector3(aimAxisH, 0, aimAxisV);
+        if (target.sqrMagnitude > 1) target.Normalize();
+        target *= 10;
+        bool deadZone = (target.sqrMagnitude < .1f); // deadZone
+        if (aimAxisV > 0) target.z *= 2;
+        if (deadZone) return;
+
+        bool aimFurtherOut = (target.sqrMagnitude >= cursor.localPosition.sqrMagnitude);
+        float inputAlignAmount = Vector3.Dot(target, cursor.localPosition);
+        bool letsAimThisThing = (aimFurtherOut || inputAlignAmount < .5f || target.sqrMagnitude > .8f);
+        if (letsAimThisThing)
+        {
+            cursor.localPosition += (target - cursor.localPosition) * Time.deltaTime * 4;
+        }
+        cursor.rotation = Quaternion.identity;
+
     }
 
     private void AimWithMouse()
     {
+        float mx = Input.GetAxis("Mouse X");
+        float my = Input.GetAxis("Mouse Y");
+        //if (mx == 0 || my == 0) return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // make a ray
         Plane aimPlane = new Plane(Vector3.up, transform.position); // make a plane
 
