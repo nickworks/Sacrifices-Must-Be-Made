@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
     public float currentFuel { get; private set; }
 
     public Rigidbody ballBody { get; private set; }
+    public float boostForce = 2;
+
     public Transform suspension;
     public Transform model;
 
@@ -49,6 +51,9 @@ public class PlayerController : MonoBehaviour {
         AddFuel(-1 * Time.deltaTime); // lose 1 fuel per second
         
         DetectGround();
+
+        
+
 
         if (isGrounded)
         {
@@ -89,18 +94,25 @@ public class PlayerController : MonoBehaviour {
 
         SetModelPosAndRot(Quaternion.Euler(pitch, 0, 0), yaw);
     }
+    float GetThrottle()
+    {
+        float t = Input.GetAxis("Vertical");
+        //float t = Mathf.Abs(Input.GetAxis("Throttle"));
 
+        float throttle = Mathf.Lerp(throttleMin, isGrounded ? throttleMax : throttleMaxAir, t);
+        return throttle;
+    }
     float Drive()
     {
         if (currentFuel <= 0) return 0;
 
         float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        
 
         forward.x += h * turnMultiplier;
 
-        float throttle = Mathf.Lerp(throttleMin, isGrounded ? throttleMax : throttleMaxAir, v);
-        Vector3 force = forward * throttle;
+
+        Vector3 force = forward * GetThrottle();
         
         //Debug.DrawRay(transform.position, forward);
 
