@@ -750,7 +750,7 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 134265eb91abe044faaeab79f1dcbb3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -772,15 +772,25 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 1, z: 0}
-  - {x: 0, y: 2, z: 0}
-  - {x: 0, y: 3, z: 0}
-  - {x: 0, y: 4, z: 0}
-  - {x: 0, y: 5, z: 0}
-  - {x: 0, y: 6, z: 0}
-  - {x: 0, y: 7, z: 0}
-  - {x: 0, y: 8, z: 0}
-  - {x: 0, y: 9, z: 0}
-  - {x: 0, y: 10, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
   m_Parameters:
     serializedVersion: 2
     widthMultiplier: 1
@@ -789,22 +799,13 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.31177044
+        value: 0.31639385
         inSlope: -0.00004529953
         outSlope: -0.00004529953
-        tangentMode: 0
+        tangentMode: 5
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.12765957
-      - serializedVersion: 3
-        time: 0.9894737
-        value: 0
-        inSlope: -0.48593354
-        outSlope: -0.48593354
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.12234041
-        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

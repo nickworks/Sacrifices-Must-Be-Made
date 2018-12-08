@@ -29,14 +29,15 @@ public class TurretRotation : MonoBehaviour {
     private void DrawAimPath()
     {
         Vector3[] pts = new Vector3[PlayerController.main.line.positionCount];
-        int centerIndex = pts.Length / 2;
-
-        float height = 2 * (transform.position - cursor.position).sqrMagnitude / 100;
+        
+        float height = 2;
 
         for (int i = 0; i < pts.Length; i++)
         {
             int max = pts.Length - 1;
             float p = i / (float)max;
+
+            //p *= .6f;
             Vector3 pt = Vector3.Lerp(transform.position, cursor.position, p);
             pt.y += curve.Evaluate(p) * height;
             pts[i] = pt;
