@@ -8,9 +8,6 @@ public class GameOverController : MonoBehaviour {
 
     public Text message;
     public Text score;
-    public Button button;
-
-    float delay = 2;
 
 	void Start () {
 
@@ -20,18 +17,11 @@ public class GameOverController : MonoBehaviour {
         string[] chars = text.Split();
         score.text = string.Join(" ", chars);
 	}
-	
-	void Update () {
-        if (delay > 0)
-        {
-            delay -= Time.deltaTime;
-            if (delay <= 0) {
-                button.gameObject.SetActive(true);
-                score.gameObject.SetActive(true);
-            }
-        }
-	}
-    public void ButtonOkay()
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("LevelGen");
+    }
+    public void ToTitle()
     {
         SceneManager.LoadScene("Title");
     }

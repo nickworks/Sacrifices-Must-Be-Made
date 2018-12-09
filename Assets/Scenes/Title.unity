@@ -1737,7 +1737,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endOfChunk: {fileID: 2025925006}
-  prefabFuel: {fileID: 1301351142495718, guid: 57a11299140495f47b02456cbcc50add, type: 2}
   chanceOfFuel: 1
 --- !u!4 &1736556165
 Transform:
