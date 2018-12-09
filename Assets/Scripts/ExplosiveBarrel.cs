@@ -9,12 +9,19 @@ public class ExplosiveBarrel : MonoBehaviour {
     public float lifespan = 1;
 
     public GameObject prefabExplosion;
+    Rigidbody body;
+
+    public AnimationCurve vertical;
+    public Vector3 ptStart;
+    public Vector3 ptEnd;
 
     void Start () {
+        body = GetComponent<Rigidbody>();
 	}
 	void Update ()
     {
         CountdownTimer();
+        
     }
 
     private void CountdownTimer()

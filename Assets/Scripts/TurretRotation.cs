@@ -34,18 +34,22 @@ public class TurretRotation : MonoBehaviour {
 
         for (int i = 0; i < pts.Length; i++)
         {
-            int max = pts.Length - 1;
+            int max = pts.Length - 1 + 4;
             float p = i / (float)max;
 
             //p *= .6f;
             Vector3 pt = Vector3.Lerp(transform.position, cursor.position, p);
             pt.y += curve.Evaluate(p) * height;
             pts[i] = pt;
+            if(i == 1)
+            {
+                spawnPoint.position = pt;
+            }
         }
 
         PlayerController.main.line.SetPositions(pts);
     }
-
+    float aimMaxDistance = 15;
     private void AimWithAnalog()
     {
         float aimAxisH = Input.GetAxis("Horizontal2");
@@ -53,8 +57,8 @@ public class TurretRotation : MonoBehaviour {
 
         Vector3 target = new Vector3(aimAxisH, 0, aimAxisV);
         if (target.sqrMagnitude > 1) target.Normalize();
-        target *= 10;
         bool deadZone = (target.sqrMagnitude < .1f); // deadZone
+        target *= aimMaxDistance;
         if (aimAxisV > 0) target.z *= 2;
         if (deadZone) return;
 
@@ -69,11 +73,11 @@ public class TurretRotation : MonoBehaviour {
 
     }
 
-    private void AimWithMouse()
+    void AimWithMouse()
     {
         float mx = Input.GetAxis("Mouse X");
         float my = Input.GetAxis("Mouse Y");
-        //if (mx == 0 || my == 0) return;
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // make a ray
         Plane aimPlane = new Plane(Vector3.up, transform.position); // make a plane
 
@@ -83,6 +87,11 @@ public class TurretRotation : MonoBehaviour {
             Vector3 hit = ray.GetPoint(rayLength); // detect where the intersection is
 
             Vector3 dis = transform.position - hit;
+            if (dis.sqrMagnitude > aimMaxDistance * aimMaxDistance)
+            {
+                dis = dis.normalized * aimMaxDistance;
+                hit = transform.position - dis;
+            }
             float yaw = -Mathf.Atan2(dis.z, dis.x) * 180 / Mathf.PI;
             float parentYaw = transform.parent.eulerAngles.y;
             transform.localEulerAngles = new Vector3(0, yaw - parentYaw, 0);
@@ -94,20 +103,28 @@ public class TurretRotation : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (PlayerController.main.currentFuel > fuelPerBarrelTossed)
-            {
+            SpawnBarrel();
+        }
+    }
 
-                GameObject obj = Instantiate(prefabBarrel, spawnPoint.position, Quaternion.identity);
-                Vector3 dir = spawnPoint.position - transform.position;
+    private void SpawnBarrel()
+    {
+        if (true || PlayerController.main.currentFuel > fuelPerBarrelTossed)
+        {
+            Quaternion rot = Quaternion.FromToRotation(Vector3.up, Random.onUnitSphere);
+            
+            Vector3 dir = spawnPoint.position - transform.position;
+            dir.Normalize();
 
-                Rigidbody barrel = obj.GetComponent<Rigidbody>();
-                barrel.velocity += PlayerController.main.ballBody.velocity; // inherit the car's velocity
+            GameObject obj = Instantiate(prefabBarrel, transform.position + dir, rot);
 
-                barrel.AddForce(dir * 20, ForceMode.Impulse); // push the barrel
-                barrel.AddTorque(Random.onUnitSphere * 10); // random spin
+            Rigidbody barrel = obj.GetComponent<Rigidbody>();
+            barrel.velocity += PlayerController.main.ballBody.velocity; // inherit the car's velocity
 
-                PlayerController.main.AddFuel(-fuelPerBarrelTossed); // lose fuel
-            }
+            barrel.AddForce(dir * 13, ForceMode.Impulse); // push the barrel
+            barrel.AddTorque(Random.onUnitSphere * 10); // random spin
+
+            //PlayerController.main.AddFuel(-fuelPerBarrelTossed); // lose fuel
         }
     }
 }
