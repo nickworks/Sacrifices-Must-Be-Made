@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     public LineRenderer line;
 
     public ParticleSystem[] dustParticles;
-
+    public AnimationCurve boostFalloff;
     public float throttleMin = 800;
     public float throttleMax = 2000;
     public float throttleMaxAir = 1500;
@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour {
         
         DetectGround();
 
+        if (Input.GetButtonDown("Fire1")) Jump();
+        Boost();
+
         if (isGrounded)
         {
             UpdateGrounded();
@@ -66,7 +69,28 @@ public class PlayerController : MonoBehaviour {
         }
 
     }
-  
+    void Jump()
+    {
+        ballBody.AddForce(Vector3.up * 20, ForceMode.Impulse);
+    }
+    void Boost()
+    {
+        //main.boostForce = Input.GetButton("Fire2") ? 2 : 1;
+
+        if (Input.GetButton("Fire2"))
+        {
+            float p = ballBody.velocity.sqrMagnitude / 10000;
+            float m = boostFalloff.Evaluate(p);
+            ballBody.AddForce(model.forward * 5000 * m * Time.deltaTime);
+            model.GetComponentInChildren<MeshRenderer>().material.color = Color.black;
+        }
+        else
+        {
+            model.GetComponentInChildren<MeshRenderer>().material.color = Color.yellow;
+        }
+
+    }
+
     private void DetectGround()
     {
         RaycastHit hit;
@@ -99,7 +123,8 @@ public class PlayerController : MonoBehaviour {
     {
         float t = Input.GetAxis("Vertical");
         //float t = Mathf.Abs(Input.GetAxis("Throttle"));
-
+        t = -Input.GetAxis("Triggers");
+        if (t < 0) t = 0;
         float throttle = Mathf.Lerp(throttleMin, isGrounded ? throttleMax : throttleMaxAir, t);
         return throttle;
     }

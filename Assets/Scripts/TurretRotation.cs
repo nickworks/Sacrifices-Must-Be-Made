@@ -55,11 +55,20 @@ public class TurretRotation : MonoBehaviour {
         float aimAxisH = Input.GetAxis("Horizontal2");
         float aimAxisV = Input.GetAxis("Vertical2");
 
+        float trigger = Input.GetAxis("Triggers");
+
+        //PlayerController.main.line.enabled = Input.GetButton("BumperRight");
+        //PlayerController.main.line.enabled = (trigger < -.2f);
+
         Vector3 target = new Vector3(aimAxisH, 0, aimAxisV);
         if (target.sqrMagnitude > 1) target.Normalize();
+
         bool deadZone = (target.sqrMagnitude < .1f); // deadZone
         target *= aimMaxDistance;
         if (aimAxisV > 0) target.z *= 2;
+
+        PlayerController.main.line.enabled = !deadZone;
+
         if (deadZone) return;
 
         bool aimFurtherOut = (target.sqrMagnitude >= cursor.localPosition.sqrMagnitude);
