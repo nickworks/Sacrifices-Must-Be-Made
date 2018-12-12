@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour {
 
+    Car car;
     public Transform speedNeedle;
     public Image[] barrels;
     public Text score;
@@ -12,16 +13,20 @@ public class PlayerHUD : MonoBehaviour {
     public float speedometerMaxVelocity = 80;
     float previousAngle = 0;
 
+    public void SetCar(Car car)
+    {
+        this.car = car;
+    }
     void Update()
     {
         UpdateFuelGauge();
         UpdateSpeedometer();
 
-        score.text = string.Join(" ", ((int)PlayerController.score).ToString().Split());
+        score.text = string.Join(" ", ((int)DriverPlayer.score).ToString().Split());
     }
     private void UpdateSpeedometer()
     {
-        float vel = PlayerController.main ? PlayerController.main.ballBody.velocity.z : 0;
+        float vel = car ? car.ballBody.velocity.z : 0;
 
         float p = vel / speedometerMaxVelocity;
         p = Mathf.Clamp(p, 0, 1);
@@ -32,9 +37,10 @@ public class PlayerHUD : MonoBehaviour {
     }
     private void UpdateFuelGauge()
     {
-        if (!PlayerController.main) return;
+        if (!car) return;
+
         float fuelPerBarrel = 10;
-        float fuel = PlayerController.main.currentFuel;
+        float fuel = car.currentFuel;
         int fullBarrels = (int)(fuel / fuelPerBarrel);
         float percentOfLastBarrel = (fuel - fullBarrels * fuelPerBarrel) / fuelPerBarrel;
 

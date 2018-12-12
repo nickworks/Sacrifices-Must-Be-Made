@@ -32,11 +32,11 @@ public class EnemySpawner : MonoBehaviour {
 
 
     void SpawnEnemy() {
-        if (!PlayerController.main) return;
+        if (!DriverPlayer.main) return;
         float buffer = 5;
         float spawnWidth = 20;
 
-        Vector3 position = PlayerController.main.transform.position;
+        Vector3 position = DriverPlayer.main.transform.position;
         position.z -= Random.Range(10, 15);
         position.x += Random.Range(-spawnWidth, spawnWidth);
         if (position.x > 0 && position.x < buffer) position.x = buffer;

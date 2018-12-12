@@ -15,7 +15,7 @@ public class TurretRotation : MonoBehaviour {
     {
         if(PlayerInput.mode == InputMode.Gamepad)
         {
-            cursor.parent = PlayerController.main.suspension;
+            cursor.parent = DriverPlayer.main.car.suspension;
             AimWithAnalog();
         }
         if (PlayerInput.mode == InputMode.MouseKeyboard)
@@ -28,7 +28,8 @@ public class TurretRotation : MonoBehaviour {
 
     private void DrawAimPath()
     {
-        Vector3[] pts = new Vector3[PlayerController.main.line.positionCount];
+        return; // TEMP DISABLE
+        Vector3[] pts = new Vector3[DriverPlayer.main.line.positionCount];
         
         float height = 2;
 
@@ -47,7 +48,7 @@ public class TurretRotation : MonoBehaviour {
             }
         }
 
-        PlayerController.main.line.SetPositions(pts);
+        DriverPlayer.main.line.SetPositions(pts);
     }
     float aimMaxDistance = 15;
     private void AimWithAnalog()
@@ -67,7 +68,7 @@ public class TurretRotation : MonoBehaviour {
         target *= aimMaxDistance;
         if (aimAxisV > 0) target.z *= 2;
 
-        PlayerController.main.line.enabled = !deadZone;
+        DriverPlayer.main.line.enabled = !deadZone;
 
         if (deadZone) return;
 
@@ -118,7 +119,7 @@ public class TurretRotation : MonoBehaviour {
 
     private void SpawnBarrel()
     {
-        if (true || PlayerController.main.currentFuel > fuelPerBarrelTossed)
+        if (true || DriverPlayer.main.car.currentFuel > fuelPerBarrelTossed)
         {
             Quaternion rot = Quaternion.FromToRotation(Vector3.up, Random.onUnitSphere);
             
@@ -128,12 +129,12 @@ public class TurretRotation : MonoBehaviour {
             GameObject obj = Instantiate(prefabBarrel, transform.position + dir, rot);
 
             Rigidbody barrel = obj.GetComponent<Rigidbody>();
-            barrel.velocity += PlayerController.main.ballBody.velocity; // inherit the car's velocity
+            barrel.velocity += DriverPlayer.main.car.ballBody.velocity; // inherit the car's velocity
 
             barrel.AddForce(dir * 13, ForceMode.Impulse); // push the barrel
             barrel.AddTorque(Random.onUnitSphere * 10); // random spin
 
-            //PlayerController.main.AddFuel(-fuelPerBarrelTossed); // lose fuel
+            DriverPlayer.main.car.AddFuel(-fuelPerBarrelTossed); // lose fuel
         }
     }
 }

@@ -11,8 +11,8 @@ public class PickupController : MonoBehaviour {
         if(other.tag == "Player")
         {
             Destroy(gameObject);
-            PlayerController.main.AddFuel(10);
-            PlayerController.score += 10;
+            DriverPlayer.main.car.AddFuel(10);
+            DriverPlayer.score += 10;
         }
     }
 }

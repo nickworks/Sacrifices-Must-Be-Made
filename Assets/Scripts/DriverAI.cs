@@ -1,0 +1,111 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DriverAI : MonoBehaviour
+{
+
+    /// <summary>
+    /// The car that this AI is driving.
+    /// </summary>
+    public Car car { get; private set; }
+
+    /// <summary>
+    /// We want to drive towards this thing
+    /// </summary>
+    public Transform target;
+
+    void Start()
+    {
+        car = GetComponent<Car>();
+        car.infiniteFuel = true;
+        //body.AddForce(0, 0, 2000);
+        explosion = GetComponent<ImpactExplosion>();
+    }
+    void OnDestroy()
+    {
+        // not sure but this function might be causing issues.
+        //EnemySpawner.EnemyDead();
+    }
+    void Update()
+    {
+        float h = 0;
+        float v = 1;
+
+        car.SetThrottle(v);
+        car.Turn(h);
+
+    }
+    //////////////////////////////////////////////////////////
+
+    ImpactExplosion explosion;
+
+    float distToPlayer;
+
+    /// <summary>
+    /// The target distance from the player along the z axis
+    /// </summary>
+    float offset = 6;
+    /// <summary>
+    /// How long should we coast - in seconds
+    /// </summary>
+    float coastTimer;
+    /// <summary>
+    /// Are we touching the ground
+    /// </summary>
+
+    bool isDead = false;
+
+    float chargePercent;
+    
+    ///////////////////////////////////////////////////////// HANDLE DEATH ///////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// This function checks if we are violating any bounds that would cause us to be considered dead
+    /// </summary>
+    void CheckIfDead()
+    {
+        if (!target)
+        {
+            isDead = false;
+        }
+        else
+        {
+            float targetDisSqr = (transform.position - target.position).sqrMagnitude;
+            if (transform.position.z < target.position.z && targetDisSqr > 50 * 50)
+            { // too far behind
+                isDead = true;
+            }
+        }
+        
+    }
+
+    void HandleDead()
+    {
+        if (isDead || !target)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            //SendMessage("Explode");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Explosion"))
+        {
+            //explosion.Explode();
+            SendMessage("Explode");
+        }
+    }
+    void Explode()
+    {
+        DriverPlayer.score += 500;
+    }
+}
