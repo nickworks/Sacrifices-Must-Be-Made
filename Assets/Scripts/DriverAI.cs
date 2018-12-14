@@ -29,12 +29,12 @@ public class DriverAI : MonoBehaviour
     }
     void Update()
     {
-        float h = 0;
+        float h = turnAmount;
         float v = 1;
 
         car.SetThrottle(v);
         car.Turn(h);
-
+        turnAmount = 0;
     }
     //////////////////////////////////////////////////////////
 
@@ -55,7 +55,7 @@ public class DriverAI : MonoBehaviour
     /// </summary>
 
     bool isDead = false;
-
+    float turnAmount;
     float chargePercent;
     
     ///////////////////////////////////////////////////////// HANDLE DEATH ///////////////////////////////////////////////////////////////////
@@ -95,14 +95,31 @@ public class DriverAI : MonoBehaviour
             //SendMessage("Explode");
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
+    {
+        CheckCollider(other);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        CheckCollider(other);
+    }
+    void CheckCollider(Collider other)
     {
         if (other.gameObject.CompareTag("Explosion"))
         {
             //explosion.Explode();
             SendMessage("Explode");
         }
+        if (other.gameObject.CompareTag("SteerAway"))
+        {
+            SteerAwayFrom(other);
+        }
+    }
+    void SteerAwayFrom(Collider c)
+    {
+        bool turnRight = transform.position.x > c.transform.position.x;
+        turnAmount = turnRight ? 1 : -1;
+
     }
     void Explode()
     {

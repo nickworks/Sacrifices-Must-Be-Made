@@ -1041,6 +1041,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1400688971387350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4576924659886772}
+  - component: {fileID: 135817319526767948}
+  m_Layer: 0
+  m_Name: Sphere (1)
+  m_TagString: SteerAway
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1405175576134936
 GameObject:
   m_ObjectHideFlags: 1
@@ -1409,6 +1425,22 @@ GameObject:
   m_Layer: 0
   m_Name: Trunk (5)
   m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1604893322881878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4945657383027188}
+  - component: {fileID: 135501480290029106}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: SteerAway
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2802,8 +2834,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1995490955008618}
-  m_LocalRotation: {x: -0.10153681, y: -0.03348091, z: 0.08252585, w: 0.9908375}
-  m_LocalPosition: {x: 23.171673, y: -50.768066, z: 7.912857}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 200, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4890910411661010}
@@ -2833,6 +2865,8 @@ Transform:
   - {fileID: 4310544160623116}
   - {fileID: 4397032215983138}
   - {fileID: 4502621414006334}
+  - {fileID: 4945657383027188}
+  - {fileID: 4576924659886772}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -11.285001, y: -4.861, z: 10.003}
@@ -3353,6 +3387,19 @@ Transform:
   m_Father: {fileID: 4692740340945942}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 46.936, y: 29.718002, z: 27.776001}
+--- !u!4 &4576924659886772
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400688971387350}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.7, y: 2.6, z: 223.5}
+  m_LocalScale: {x: 42.22588, y: 20.173414, z: 42.22588}
+  m_Children: []
+  m_Father: {fileID: 4263366355626084}
+  m_RootOrder: 28
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4581033846293540
 Transform:
   m_ObjectHideFlags: 1
@@ -4020,6 +4067,19 @@ Transform:
   m_Father: {fileID: 4581033846293540}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 7.2130003, y: -44.687, z: -32.191}
+--- !u!4 &4945657383027188
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1604893322881878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.65, y: 10.083, z: 40.1}
+  m_LocalScale: {x: 42.225872, y: 42.225872, z: 42.225872}
+  m_Children: []
+  m_Father: {fileID: 4263366355626084}
+  m_RootOrder: 27
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4946395587221976
 Transform:
   m_ObjectHideFlags: 1
@@ -10273,6 +10333,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuelAmount: 10
+--- !u!135 &135501480290029106
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1604893322881878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135817319526767948
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400688971387350}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136195925104244774
 CapsuleCollider:
   m_ObjectHideFlags: 1
