@@ -10,6 +10,8 @@ public class DriverAI : MonoBehaviour
     /// </summary>
     public Car car { get; private set; }
 
+    public Transform driveTarget;
+
     /// <summary>
     /// We want to drive towards this thing
     /// </summary>
@@ -29,13 +31,19 @@ public class DriverAI : MonoBehaviour
     }
     void Update()
     {
-        float h = turnAmount;
-        float v = 1;
+        SteerTowardsPath();
+        ApplySteeringAndThrottle();
+    }
 
+    private void ApplySteeringAndThrottle()
+    {
+        float h = turnAmount;
+        float v = 1; // full throttle!
         car.SetThrottle(v);
         car.Turn(h);
         turnAmount = 0;
     }
+
     //////////////////////////////////////////////////////////
 
     ImpactExplosion explosion;
@@ -112,7 +120,7 @@ public class DriverAI : MonoBehaviour
         }
         if (other.gameObject.CompareTag("SteerAway"))
         {
-            SteerAwayFrom(other);
+            //SteerAwayFrom(other);
         }
     }
     void SteerAwayFrom(Collider c)
@@ -120,6 +128,18 @@ public class DriverAI : MonoBehaviour
         bool turnRight = transform.position.x > c.transform.position.x;
         turnAmount = turnRight ? 1 : -1;
 
+    }
+    void SteerTowardsPath()
+    {
+        Vector3 nearestPoint = DrivePath.ProjectToNearestPath(transform.position);
+        float turnMultiplier = 10f;
+        turnAmount = (nearestPoint.x - transform.position.x) * turnMultiplier;
+        turnAmount = Mathf.Clamp(turnAmount, -1, 1);
+
+        //if (nearestPoint.x < transform.position.x) turnAmount = -1;
+        //if (nearestPoint.x > transform.position.x) turnAmount = 1;
+        this.driveTarget.position = nearestPoint;
+        this.driveTarget.rotation = Quaternion.identity;
     }
     void Explode()
     {

@@ -6,12 +6,9 @@ public class LevelChunk : MonoBehaviour {
 
     public Transform endOfChunk;
 
-    [Range(0,1)]
-    public float chanceOfFuel = .5f;
-
     void Start () {
-        Limit<PickupController>(chanceOfFuel);
-        Limit<ObstacleSpawner>(.5f);
+        Limit<PickupController>(.5f); // 50% chance if spawning fuel at each node
+        Limit<ObstacleSpawner>(.5f); // 50% chance of spawning an obstacle at each node
 	}
     void Limit<T>(float percent)
     {
