@@ -26,8 +26,7 @@ public class DriverAI : MonoBehaviour
     }
     void OnDestroy()
     {
-        // not sure but this function might be causing issues.
-        //EnemySpawner.EnemyDead();
+        EnemySpawner.EnemyDead();
     }
     void Update()
     {
@@ -145,4 +144,5 @@ public class DriverAI : MonoBehaviour
     {
         DriverPlayer.score += 500;
     }
+
 }
